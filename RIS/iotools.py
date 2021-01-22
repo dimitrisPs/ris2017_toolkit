@@ -22,11 +22,12 @@ def read_calibration_txt(path):
         raise ValueError("check the validity of {}. It should have 12 lines", path)
     
     calib = dict()
-    _, w = utils.parse_calib_txt_entry(lines[0])
-    _, h = utils.parse_calib_txt_entry(lines[1])
+    w = int(utils.parse_calib_txt_entry(lines[0])[1][0])
+    h = int(utils.parse_calib_txt_entry(lines[1])[1][0])
     calib['K1'], calib['D1'] = utils.parse_camera_calib(lines[2:6])
     calib['K2'], calib['D2'] = utils.parse_camera_calib(lines[6:10])
     calib['R'], calib['T'] = utils.parse_RT_calib(lines[10:12])
+    calib['size'] = (h,w)
     return calib
      
 def save_calib(path, calib):
@@ -35,6 +36,9 @@ def save_calib(path, calib):
     except ValueError as ev:
         raise TypeError("path should be %r" % path, ev)
     path.parent.mkdir(parents=True, exist_ok=True)
+    
+    if 'size' in calib:
+        calib['size'] = np.array(calib['size'], dtype=np.int).flatten()
 
     fs_write = cv2.FileStorage(str(path), cv2.FILE_STORAGE_WRITE)
     for k in calib.keys():
