@@ -88,3 +88,37 @@ def load_calib(path):
     
 
 # parse datasets and return paths
+
+
+def agg_paths(dataset_dir):
+    # a dataset folder contains the following folders, left_frames, right_frames
+    # and ground_truth. It also contains misc files such as calibration.txt and 
+    # mapping.json. This function returns a dictionary of all those paths sorted
+    # based on their filename
+    # TODO: perform all the relevant tests for file strucuture etc.
+    paths = dict()
+    
+    dataset_dir = Path(dataset_dir)
+    if not dataset_dir.is_dir():
+        raise ValueError
+    left_frames_dir = dataset_dir/'left_frames'
+    right_frames_dir = dataset_dir/'right_frames'
+    ground_truth_dir = dataset_dir/'ground_truth'
+    
+    paths['left'] = sorted([p for p in left_frames_dir.rglob('./frame*.png')])
+    paths['right'] = sorted([p for p in right_frames_dir.rglob('./frame*.png')])
+    
+    paths['ground_truth'] =dict()
+    ground_truth_dirs =  sorted([p for p in ground_truth_dir.iterdir() if p.is_dir()])
+    
+    for gt_dir in ground_truth_dirs:
+        paths['ground_truth'][gt_dir.name]=sorted([p for p in gt_dir.iterdir()])
+    
+    
+    paths['mappings'] = dataset_dir/'mappings.json'
+    root_paths = [p for p in dataset_dir.glob('*calib*')]
+    if root_paths:
+        paths['calib']=root_paths[0]
+    return paths
+         
+    
