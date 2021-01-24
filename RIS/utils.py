@@ -25,7 +25,7 @@ def parse_RT_calib(lines):
     _, R = parse_calib_txt_entry(lines[0])
     _, T = parse_calib_txt_entry(lines[1])
     # most likely R is expressed using the rodrigues formula
-    print('check R')
+    # print('check R')
     R = np.array(R).reshape(-1)
     R, _ = cv2.Rodrigues(R)
     T = np.array(T).reshape(-1,1)
@@ -41,5 +41,25 @@ def center_crop(img, size):
     start_x = int((in_w - out_w)//2)
     start_y = int((in_h - out_h)//2)
     return img[start_y:start_y+out_h, start_x:start_x+out_w].copy()
+
+
+def frame_crop(img):
+    img=img[37:1047, 328:1591]
+    return img.copy()
     
+
+def deinterlace(img, out_size=None):
+    if out_size is None:
+        out_size = img.shape
+    img0 = img[::2].copy()
+    img1 = img[1::2].copy()
+    img0 =cv2.resize(img0, out_size[::-1])
+    img1 =cv2.resize(img1, out_size[::-1])
+    return img0, img1
+
+def multiclass_masks_to_binary(img_list):
+    bin_mask = np.full(img_list[0].shape[:2], False, dtype=bool)
     
+    for mask_img in img_list:
+        bin_mask = (bin_mask | (mask_img>0))    
+    return bin_mask
