@@ -9,7 +9,7 @@ from RIS import utils, iotools
 from RIS.stereo_rectification import Stereo_Rectifier
 
 parser = argparse.ArgumentParser('RIS 2017 dataset modifier')
-parser.add_argument('src_dataset', help='root directory containg subdatasets.')
+parser.add_argument('src_dataset', help='root directory containing subdatasets.')
 parser.add_argument('dst_dataset', help='root directory to store the resulting dataset.')
 parser.add_argument('--rect_alpha', help='alpha rectification values, default is 0.', default=0., type=float)
 
@@ -32,7 +32,7 @@ if __name__ == '__main__':
         for left_img_p, right_img_p in tqdm(list(zip(ds_paths['left'], ds_paths['right'])), desc='RGB samples', leave=False):
             img_l = cv2.imread(str(left_img_p))
             img_r = cv2.imread(str(right_img_p))
-            #crop and deinterlace
+            #crop and de-interlace
             img_l_c = utils.frame_crop(img_l)
             img_l_0, img_l_1 = utils.deinterlace(img_l_c, (1024,1280))
             img_r_c = utils.frame_crop(img_r)
@@ -69,14 +69,3 @@ if __name__ == '__main__':
         iotools.save_calib(dst_root_dir/sub_ds.name/'stereo_calib.json',rectifier.calib)
         shutil.copy(ds_paths['mappings'], dst_root_dir/sub_ds.name/(ds_paths['mappings'].name)) 
         
-            
-        
-        
-        
-        #save the complete calibration file.
-        
-            
-        
-    
-    
-
