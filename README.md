@@ -1,10 +1,10 @@
 # MICCAI 2017 Robotic Instrument Segmentation toolkit
 
-
 ## Features
+
 The project provides code to manipulate RIS 2017 data and supports:
 
-- [x] Porting calibration files to opencv format
+- [x] Porting calibration files to OpenCV format
 - [x] Stereo Rectification of sample Data.
 - [x] sample De-interlacing
 - [x] Segmentation mask combination.
@@ -12,9 +12,9 @@ The project provides code to manipulate RIS 2017 data and supports:
 - [ ] generation of .csv file containing samples paths.
 
 ## Known issues
+
 - the dataset generation program assumes that the original dataset is stored
 with a specific file structure, different from the one it's provided.
-
 - stereo rectifing segmentation masks, their might be umbiguious mask values near
 tool boarders. This is due to interpolation. In the future this can get fixed by
 discritizing the mask after rectification.
@@ -64,3 +64,54 @@ stereo channel, with half the vertical resolution of the original interlaced fra
 We keep the first frame and resize it to `1280x1024` interpolating the missing
 lines.
 Segmentation marks are cropped and to `1009x1263` image and upsampled to `1280x1024`.
+
+## How to use it
+
+### Dependenaces installation
+
+This project was build using anaconda. Assuming that anaconda is already installed
+in the target machine, a anaconda invironment suitable to run this code can be
+created using the following steps.
+
+- navigate to this project's folder
+- create an enviroments (e.g. ris_toolkit) using the provided requrements.txt
+
+    `conda create --name ris_toolkit --file requirements.txt`
+- activate the anaconda environment
+
+    `conda activate ris_toolkit`
+- generate the data as described in the following section.
+
+### Data generation
+
+Assuming that the original dataset is stored in the following file structure.
+
+    .
+    ├── train_set                       # folder containing train samples
+    │   └── instrument_dataset_i        # i corresponds to dataset number (0-8)
+    │       ├── left_frame              # dir containing left frames
+    │       ├── right_frame             # dir containing right frames
+    │       ├── ground_truth 
+    │       │   └── label_1             # dir contains ground truth labels for tool 1
+    │       │   └── label_n             # dir contains ground truth labels for tool n
+    │       ├── mappings.json
+    │       └── camera_calibration.txt  # 12 line calibration file.
+    └── test_set                        # folder containing test samples
+        └── instrument_dataset_i        # i corresponds to dataset number (0-10)
+            ├── left_frame              # dir containing left frames
+            ├── right_frame             # dir containing right frames
+            ├── ground_truth 
+            │   └── label_1             # dir contains ground truth labels for tool 1
+            │   └── label_n             # dir contains ground truth labels for tool n
+            ├── mappings.json
+            └── camera_calibration.txt  # 12 line calibration file.
+
+the following program creates a modified dataset following the above file structure.
+The new dataset will contain stereo rectified frames (based on `--rect_alpha`)
+de-interlaced cropped and interpolated to `1280x1024` as described above.
+Additionally a stereo_calib.json, OpenCV compatible, calibration file will be
+generated, in place of camera_calibration.txt. This calibration file contains
+original the stereo parameters plus the computed rectification parameters.
+
+    python generate_stereo_binary_dataset.py /path_to_original/train_set /path_to_store_the_new/train_set --alpha_rect -1
+    python generate_stereo_binary_dataset.py /path_to_original/test_set /path_to_store_the_new/test_set --alpha_rect -1

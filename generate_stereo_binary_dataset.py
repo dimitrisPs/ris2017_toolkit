@@ -1,4 +1,5 @@
 from pathlib import Path
+import shutil
 import cv2
 import numpy as np
 import argparse
@@ -65,7 +66,9 @@ if __name__ == '__main__':
             binary_mask = utils.multiclass_masks_to_binary(gt_list)
             cv2.imwrite(str(save_gt_dir/'binary'/sample_p.name), 255*binary_mask)
         
-        iotools.save_calib(dst_root_dir/sub_ds.name/'stereo.calib.json',rectifier.calib) 
+        iotools.save_calib(dst_root_dir/sub_ds.name/'stereo_calib.json',rectifier.calib)
+        shutil.copy(ds_paths['mappings'], dst_root_dir/sub_ds.name/(ds_paths['mappings'].name)) 
+        
             
         
         
