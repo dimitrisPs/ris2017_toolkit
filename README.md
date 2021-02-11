@@ -9,7 +9,7 @@ The project provides code to manipulate RIS 2017 data and supports:
 - [x] sample De-interlacing
 - [x] Segmentation mask combination.
 - [x] Binary tool segmentation dataset generation
-- [ ] generation of .csv file containing samples paths.
+- [x] generation of .csv file containing samples paths.
 
 ## Known issues
 
@@ -115,3 +115,7 @@ original the stereo parameters plus the computed rectification parameters.
 
     python generate_stereo_binary_dataset.py /path_to_original/train_set /path_to_store_the_new/train_set --alpha_rect -1
     python generate_stereo_binary_dataset.py /path_to_original/test_set /path_to_store_the_new/test_set --alpha_rect -1
+
+### CSV contains sample paths
+    python generate_io_csv.py /to/dataset ./path/to/write/csv [--binary] [--disparity] 
+
