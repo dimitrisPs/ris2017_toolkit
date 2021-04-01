@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 from . import utils
 import json
-# paths should be either pathlig.Path or str
+# paths should be either pathlib.Path or str
 
 # read calibration files.
 # read calibration files in original format.
@@ -95,7 +95,7 @@ def agg_paths(dataset_dir):
     # and ground_truth. It also contains misc files such as calibration.txt and 
     # mapping.json. This function returns a dictionary of all those paths sorted
     # based on their filename
-    # TODO: perform all the relevant tests for file strucuture etc.
+    # TODO: perform all the relevant tests for file structure etc.
     paths = dict()
     
     dataset_dir = Path(dataset_dir)

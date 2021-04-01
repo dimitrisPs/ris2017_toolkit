@@ -10,14 +10,16 @@ The project provides code to manipulate RIS 2017 data and supports:
 - [x] Segmentation mask combination.
 - [x] Binary tool segmentation dataset generation
 - [x] generation of .csv file containing samples paths.
+- [ ] compute and save dataset statistics
+- [x] evaluation script for binary segmentation.
 
 ## Known issues
 
 - the dataset generation program assumes that the original dataset is stored
 with a specific file structure, different from the one it's provided.
-- stereo rectifying segmentation masks, their might be ambiguous mask values near
-tool boarders. This is due to interpolation. In the future this can get fixed by
-discrediting the mask after rectification.
+- stereo rectifying segmentation masks, there might be ambiguous mask values near
+tool boarders. This is due to interpolation and could get fixed by
+discretizing the mask after rectification. 
 
 ## Notes on the Dataset
 
@@ -53,9 +55,24 @@ video sequence is not provided, we are limited to simple de-interlacing techniqu
 An additional issue comes from the fact that the provided samples are not
 provided in the original size(`1280x1024`) as explain in the above section.
 
-<!-- ### Left-Right Frame synchronization -->
+### Sample issue
+
+- Time Synchronization
+
+The left and right view are not synchronized in time. This can be easily seen in
+views where a tool is moving fast in the vertical direction. In addition to the
+interlacing artifacts, tools do not appear to be in the same scanlines.
+
+- Ground truth
+
+There are are frames with missing masks for some parts of tools. Most of those
+samples have been found in dataset 8. In addition, mask are not exact and often
+they include tissue or do not include the whole tool area.
+
 
 ### Solution
+
+- Data format
 
 To remove the borders completely and make to make use of the provided calibration
 we crop frames to `1263x1009` starting from pixel `328,37`.
@@ -117,5 +134,9 @@ original the stereo parameters plus the computed rectification parameters.
     python generate_stereo_binary_dataset.py /path_to_original/test_set /path_to_store_the_new/test_set --alpha_rect -1
 
 ### CSV contains sample paths
+
     python generate_io_csv.py /to/dataset ./path/to/write/csv [--binary] [--disparity] 
 
+### evaluate binary segmentation
+
+    python evaluate.py  --gt_dir /path/to/test/dataset/root/dir --algorithm_output_dir /path/to directory/samples/for/eval/are/stored 
