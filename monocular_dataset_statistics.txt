@@ -1,0 +1,11 @@
+instrument_dataset_1 statistics:         std: [0.18706614 0.16100748 0.17527588]         mean: [0.5103203  0.3187526  0.35489508]        binary coverage: 0.1671627782185872                                                              
+instrument_dataset_2 statistics:         std: [0.15451887 0.14438461 0.16133987]         mean: [0.48212166 0.31853104 0.36773261]        binary coverage: 0.1321171340942383
+instrument_dataset_3 statistics:         std: [0.20931441 0.18486973 0.19551124]         mean: [0.46311604 0.30084228 0.32438155]        binary coverage: 0.1601208419799805
+instrument_dataset_4 statistics:         std: [0.16187494 0.15070554 0.16247356]         mean: [0.53106072 0.31344408 0.35139731]        binary coverage: 0.15508138020833334
+instrument_dataset_5 statistics:         std: [0.18403433 0.17340957 0.19632542]         mean: [0.494802   0.32427657 0.38021505]        binary coverage: 0.13588855743408212
+instrument_dataset_6 statistics:         std: [0.19314698 0.16938981 0.18823825]         mean: [0.46977633 0.29129633 0.31744291]        binary coverage: 0.1535536346435546
+instrument_dataset_7 statistics:         std: [0.19093147 0.17592153 0.19514636]         mean: [0.44340637 0.30964731 0.33647485]        binary coverage: 0.14332008361816395
+instrument_dataset_8 statistics:         std: [0.18797385 0.15033914 0.17468025]         mean: [0.50334764 0.28434525 0.34847895]        binary coverage: 0.16409857686360674
+instrument_dataset_9 statistics:         std: [0.14184443 0.13082542 0.14670728]         mean: [0.50916503 0.32480707 0.37165678]        binary coverage: 0.10632234700520843
+instrument_dataset_10 statistics:        std: [0.19008032 0.15143986 0.16828294]         mean: [0.49282893 0.29303957 0.3218656 ]        binary coverage: 0.12574954223632806
+std: [0.18007857 0.15922927 0.1763981 ] mean: [0.4899945  0.30789821 0.34745407]         coverage: 0.14434148763020832
