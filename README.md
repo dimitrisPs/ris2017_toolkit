@@ -243,13 +243,6 @@ lines.
 Segmentation marks are cropped and to `1009x1263` image and up-sampled to `1280x1024`.
 
 
-## Dataset statistics
-
-The table below lists dataset statistics computed using the provided code. 
-Both train and test samples were used to calculate the color and binary coverage.
-The last row is the mean across statistics computed for each
-
-
 ## How to run the code
 
 ### Environment setup
