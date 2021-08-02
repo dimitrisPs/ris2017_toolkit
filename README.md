@@ -10,7 +10,7 @@ The project provides code to manipulate RIS 2017 data and supports:
 - [x] Segmentation mask combination.
 - [x] Binary tool segmentation dataset generation
 - [x] generation of .csv file containing samples paths.
-- [x] Compution of dataset statistics
+- [x] Computation of dataset statistics
 - [x] Evaluation script for binary segmentation.
 
 The dataset generation program assumes that the original dataset is stored
@@ -23,20 +23,20 @@ per dataset. Color statistics were computed only using the left frame from each
 sample, after de-interlacing and cropping it. The statistics corresponds to images
 in range 0-1.
 
-|        Dataset        | Mean  |       |       | Stdev |       |        |Coverage |
-|:---------------------:|:-----:|:-----:|:-----:|:-----:|:-----:|:------:|:-------:|
-|                       |  Red  | Green | Blue  |  Red  | Green |  Blue  |   %     |
-| instrument_dataset_1  | 0.510 | 0.318 | 0.354 | 0.187 | 0.161 |  0.175 |  0.167  |
-| instrument_dataset_2  | 0.482 | 0.318 | 0.367 | 0.154 | 0.144 |  0.161 |  0.132  |
-| instrument_dataset_3  | 0.463 | 0.300 | 0.324 | 0.209 | 0.184 |  0.195 |  0.160  |
-| instrument_dataset_4  | 0.531 | 0.313 | 0.351 | 0.161 | 0.150 |  0.162 |  0.155  |
-| instrument_dataset_5  | 0.494 | 0.324 | 0.380 | 0.184 | 0.173 |  0.196 |  0.135  |
-| instrument_dataset_6  | 0.469 | 0.291 | 0.317 | 0.193 | 0.169 |  0.188 |  0.153  |
-| instrument_dataset_7  | 0.443 | 0.309 | 0.336 | 0.190 | 0.175 |  0.195 |  0.143  |
-| instrument_dataset_8  | 0.503 | 0.284 | 0.348 | 0.187 | 0.150 |  0.174 |  0.164  |
-| instrument_dataset_9  | 0.509 | 0.324 | 0.371 | 0.141 | 0.130 |  0.146 |  0.106  |
-| instrument_dataset_10 | 0.492 | 0.293 | 0.321 | 0.190 | 0.151 |  0.168 |  0.125  |
-| Average               | 0.489 | 0.307 | 0.347 | 0.180 | 0.159 |  0.176 |  0.144  |
+|        Dataset        | Mean  |       |       | Stdev |       |       | Coverage |
+| :-------------------: | :---: | :---: | :---: | :---: | :---: | :---: | :------: |
+|                       |  Red  | Green | Blue  |  Red  | Green | Blue  |    %     |
+| instrument_dataset_1  | 0.510 | 0.318 | 0.354 | 0.187 | 0.161 | 0.175 |  0.167   |
+| instrument_dataset_2  | 0.482 | 0.318 | 0.367 | 0.154 | 0.144 | 0.161 |  0.132   |
+| instrument_dataset_3  | 0.463 | 0.300 | 0.324 | 0.209 | 0.184 | 0.195 |  0.160   |
+| instrument_dataset_4  | 0.531 | 0.313 | 0.351 | 0.161 | 0.150 | 0.162 |  0.155   |
+| instrument_dataset_5  | 0.494 | 0.324 | 0.380 | 0.184 | 0.173 | 0.196 |  0.135   |
+| instrument_dataset_6  | 0.469 | 0.291 | 0.317 | 0.193 | 0.169 | 0.188 |  0.153   |
+| instrument_dataset_7  | 0.443 | 0.309 | 0.336 | 0.190 | 0.175 | 0.195 |  0.143   |
+| instrument_dataset_8  | 0.503 | 0.284 | 0.348 | 0.187 | 0.150 | 0.174 |  0.164   |
+| instrument_dataset_9  | 0.509 | 0.324 | 0.371 | 0.141 | 0.130 | 0.146 |  0.106   |
+| instrument_dataset_10 | 0.492 | 0.293 | 0.321 | 0.190 | 0.151 | 0.168 |  0.125   |
+|        Average        | 0.489 | 0.307 | 0.347 | 0.180 | 0.159 | 0.176 |  0.144   |
 
 ## Calibration
 
@@ -106,7 +106,6 @@ We keep the first frame and resize it to `1280x1024` interpolating the missing
 lines.
 Segmentation marks are cropped and to `1009x1263` image and up-sampled to `1280x1024`.
 
-
 ## How to run the code
 
 ### Environment setup
@@ -118,35 +117,43 @@ created using the following steps.
 - navigate to this project's folder
 - create an environments (e.g. ris_toolkit) using the provided requirements.txt
 
-    `conda create --name ris_toolkit --file requirements.txt`
+```bash
+conda create --name ris_toolkit --file requirements.txt
+```
+
 - activate the anaconda environment
 
-    `conda activate ris_toolkit`
+```bash
+conda activate ris_toolkit
+```
+
 - generate the data as described in the following section.
 
 ### Data generation and cleaning
 
 Assuming that the original dataset follows the following file structure.
 
-    .
-    ├── train_set                       # folder containing train samples
-    │   └── instrument_dataset_i        # i corresponds to dataset number (0-8)
-    │       ├── left_frame              # dir containing left frames
-    │       ├── right_frame             # dir containing right frames
-    │       ├── ground_truth 
-    │       │   └── label_1             # dir contains ground truth labels for tool 1
-    │       │   └── label_n             # dir contains ground truth labels for tool n
-    │       ├── mappings.json
-    │       └── camera_calibration.txt  # 12 line calibration file.
-    └── test_set                        # folder containing test samples
-        └── instrument_dataset_i        # i corresponds to dataset number (0-10)
-            ├── left_frame              # dir containing left frames
-            ├── right_frame             # dir containing right frames
-            ├── ground_truth 
-            │   └── label_1             # dir contains ground truth labels for tool 1
-            │   └── label_n             # dir contains ground truth labels for tool n
-            ├── mappings.json
-            └── camera_calibration.txt  # 12 line calibration file.
+```tree
+.
+├── train_set                       # folder containing train samples
+│   └── instrument_dataset_i        # i corresponds to dataset number (0-8)
+│       ├── left_frame              # dir containing left frames
+│       ├── right_frame             # dir containing right frames
+│       ├── ground_truth 
+│       │   └── label_1             # dir contains ground truth labels for tool 1
+│       │   └── label_n             # dir contains ground truth labels for tool n
+│       ├── mappings.json
+│       └── camera_calibration.txt  # 12 line calibration file.
+└── test_set                        # folder containing test samples
+    └── instrument_dataset_i        # i corresponds to dataset number (0-10)
+        ├── left_frame              # dir containing left frames
+        ├── right_frame             # dir containing right frames
+        ├── ground_truth 
+        │   └── label_1             # dir contains ground truth labels for tool 1
+        │   └── label_n             # dir contains ground truth labels for tool n
+        ├── mappings.json
+        └── camera_calibration.txt  # 12 line calibration file.
+```
 
 the following program creates a modified dataset following the above file structure.
 The new dataset will contain stereo rectified frames (based on `--rect_alpha`)
@@ -155,16 +162,22 @@ Additionally a stereo_calib.json, OpenCV compatible, calibration file will be
 generated, in place of camera_calibration.txt. This calibration file contains
 original the stereo parameters plus the computed rectification parameters.
 
-    python generate_stereo_binary_dataset.py /path_to_original/train_set /path_to_store_the_new/train_set --alpha_rect -1
-    python generate_stereo_binary_dataset.py /path_to_original/test_set /path_to_store_the_new/test_set --alpha_rect -1
+```bash
+python -m scripts.generate_stereo_binary_dataset /path_to_original/train_set /path_to_store_the_new/train_set --alpha_rect -1
+python -m scripts.generate_stereo_binary_dataset /path_to_original/test_set /path_to_store_the_new/test_set --alpha_rect -1
+```
 
-    python generate_clean_monocular_dataset.py /path_to_original/train_set /path_to_store_the_new/train_set 
-    python generate_clean_monocular_dataset.py /path_to_original/test_set /path_to_store_the_new/test_set 
+```bash
+python -m scripts.generate_clean_monocular_dataset /path_to_original/train_set /path_to_store_the_new/train_set 
+python -m scripts.generate_clean_monocular_dataset /path_to_original/test_set /path_to_store_the_new/test_set 
+```
 
 ### Generate Sample CSV
 
-    python generate_io_csv.py /to/dataset ./path/to/write/csv [--binary] [--disparity] 
-
+```bash
+python -m scripts.generate_io_csv.py path/to/dataset ./path/to/write/csv [--binary] [--disparity] 
+```
 ### Evaluate Binary Segmentation
-
-    python evaluate.py  --gt_dir /path/to/test/dataset/root/dir --algorithm_output_dir /path/to directory/samples/for/eval/are/stored 
+```bash
+python -m scripts.evaluate  --gt_dir /path/to/test/dataset/root/dir --algorithm_output_dir /path/to directory/samples/for/eval/are/stored 
+```
