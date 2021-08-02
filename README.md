@@ -177,7 +177,9 @@ python -m scripts.generate_clean_monocular_dataset /path_to_original/test_set /p
 ```bash
 python -m scripts.generate_io_csv.py path/to/dataset ./path/to/write/csv [--binary] [--disparity] 
 ```
+
 ### Evaluate Binary Segmentation
+
 ```bash
 python -m scripts.evaluate  --gt_dir /path/to/test/dataset/root/dir --algorithm_output_dir /path/to directory/samples/for/eval/are/stored 
 ```
