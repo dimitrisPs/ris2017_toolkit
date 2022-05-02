@@ -1,12 +1,9 @@
 from pathlib import Path
 import shutil
 import cv2
-import numpy as np
 import argparse
 from tqdm import tqdm
-
 from RIS import utils, iotools
-from RIS.stereo_rectification import Stereo_Rectifier
 
 parser = argparse.ArgumentParser('RIS 2017 dataset cleaner')
 parser.add_argument('src_dataset', help='root directory containing subdatasets.')
