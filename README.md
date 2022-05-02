@@ -121,7 +121,7 @@ they include tissue or do not include the whole tool area.
 
 Dataset8 - Frame 72
 
-![missing masks](media/missing_mask_issue_fs1f207_ris17.png)
+![missing masks](media/missing_mask_issue_fs8f72_ris17.png)
 
 ### Solution
 
