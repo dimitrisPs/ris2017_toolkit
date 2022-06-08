@@ -25,7 +25,6 @@ def parse_RT_calib(lines):
     _, R = parse_calib_txt_entry(lines[0])
     _, T = parse_calib_txt_entry(lines[1])
     # most likely R is expressed using the rodrigues formula
-    # print('check R')
     R = np.array(R).reshape(-1)
     R, _ = cv2.Rodrigues(R)
     T = np.array(T).reshape(-1,1)

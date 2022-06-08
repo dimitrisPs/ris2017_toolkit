@@ -19,7 +19,6 @@ if __name__ == '__main__':
         prediction_paths = sorted([p for p in Path(args.algorithm_output_dir).resolve().rglob('*instrument_dataset_*/binary/*.png')])
         ref_paths = sorted([p for p in Path(args.gt_dir).resolve().rglob('*instrument_dataset_*/ground_truth/binary/*.png')])
     else:
-        #aggregate paths and put them to prediction_paths and ref_paths
         raise NotImplementedError
     assert len(prediction_paths) == len(ref_paths)
     scores=dict()
@@ -35,7 +34,6 @@ if __name__ == '__main__':
 
         scores[dataset_name].append(iou(reference, prediction, 255))
 
-    # aggregate_scores
     final_scores=dict()
     total_score=0
     for dataset, score_list in scores.items():

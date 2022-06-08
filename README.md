@@ -1,7 +1,7 @@
 # MICCAI 2017 Robotic Instrument Segmentation toolkit
 
-This repository contains unofficial code to assist the use of the RIS2017 in the
-stereo setting.
+This repository contains unofficial code to assist with the use of the RIS2017
+in stereo setting.
 
 If you are using the [Robotics instrument Segmentation
 2017 Endovis challenge dataset](https://endovissub2017-roboticinstrumentsegmentation.grand-challenge.org/Home/)  cite the official paper
@@ -25,17 +25,12 @@ If this repository contains code useful to your research consider citing
 
 The project provides code to manipulate RIS 2017 data and supports:
 
-- [x] Porting calibration files to OpenCV format
-- [x] Stereo Rectification of sample Data.
-- [x] De-interlacing
-- [x] Segmentation mask combination.
-- [x] Binary tool segmentation dataset generation
-- [x] generation of .csv file containing samples paths.
-- [x] Computation of dataset statistics
-- [x] Evaluation script for binary segmentation.
+- Converting the provided calibration files to OpenCV format
+- Stereo Rectification of images.
+- De-interlacing
+- Binary mask generation.
+- Evaluation script for binary segmentation.
 
-The dataset generation program assumes that the original dataset is stored
-with a specific file structure, different from the one it's provided.
 
 ## Getting the dataset
 
@@ -72,25 +67,19 @@ to 0-1.
 
 The provided calibration includes a three value entry named `Extrinsic-Omega`
 which describes to the rotation from left to right camera frame. Assuming that
-the rotation is expressed using the Rodrigues' formula, we converted to a 3x3
-Rotation matrix and use it for stereo rectification.
+the rotation is expressed using the Rodrigues' formula, the scripts convert 3x3
+`Extrinsic-Omega` to a rotation matrix which are later used for stereo rectification
 
-- Calibration Accuracy
-
-Using the calibration files provided with with datasets 3 and 6 to rectify
-the stereo pairs, results to sub-optimal stereo rectifications where corresponding features
-do not lie in the same scan-lines. The calibration of datasets 5,7,8,9 and 10 is
-better but they stereo rectification is not perfect. Calibration files for
-datasets 1,2 and 4 are are accurate enough to produce good stereo rectifications.
-
-## Data format
+## Data processing
 
 ### Sample image Dimensions
 
 Based on the provided calibration parameters, albeit the frame size is
 indicated to be `1280x1024`, the provided samples are of size `1920x1080` with
 the rgb image places in the middle of the samples and black borders around it.
-Center cropping the frames to `1280x1024`, results, again, to images with borders.
+Center cropping the frames to `1280x1024`, results to images with back borders.
+To remove the borders completely and to make use of the provided calibration
+we crop frames to `1263x1009` starting from pixel `328,37`.
 
 ### Interlacing
 
@@ -98,69 +87,45 @@ Sample are extracted from interlaced video. This results to artifacts
 whenever an object is moving fast between frames. Because the full
 video sequence is not provided, we are limited to simple de-interlacing techniques
 where we delete odd image rows and interpolate their values based color information
-of the even lines. Additionally the provided samples are not in the original
-size(`1280x1024`) as explain in the above section.
+of the even lines.
 
-## Known issues
+## Issues related to stereo reconstruction
 
-### Time Synchronization
+### Imperfect time Synchronization between stereo channels
 
 The left and right view are not synchronized in time. This can be easily seen in
-views where a tool is moving fast in the vertical direction. In addition to the
-interlacing artifacts, tools do not appear to be in the same scanlines.
-
+views where a tool is moving fast in the vertical direction.
 Dataset 1- Frame 207
 
 ![stereo pair time synchronization issue](media/time_sync_issue_fs1f207_ris17.png)
 
-### Ground truth
+### Calibration Accuracy
 
-There are are frames with missing masks for some parts of tools. Most of those
-samples have been found in dataset 8. In addition, mask are not exact and often
-they include tissue or do not include the whole tool area.
+Using the provided calibration files to stereo rectify the dataset we find the
+the following:
 
-Dataset8 - Frame 72
-
-![missing masks](media/missing_mask_issue_fs8f72_ris17.png)
-
-### Solution
-
-- Data format
-
-To remove the borders completely and to make use of the provided calibration
-we crop frames to `1263x1009` starting from pixel `328,37`.
-Next, we de-interlace the the rgb samples which results to two frames, for each
-stereo channel, with half the vertical resolution of the original interlaced frame.
-We keep the first frame and resize it to `1280x1024` interpolating the missing
-lines.
-Segmentation marks are cropped and to `1009x1263` image and up-sampled to `1280x1024`.
+- Datasets 3,6 exhibit vertical disparity of around 20 pixels after stereo
+ rectification.
+- Datasets 5,7,8,9,10 exhibit vertical disparity around 5 pixels after stereo
+ rectification.
+- Datasets 1,2 and 4 do not exhibit visible vertical disparity after stereo
+rectification.
 
 ## How to run the code
 
 ### Environment setup
 
 This project was build using anaconda. Assuming that anaconda is already installed
-in the target machine, a anaconda environment suitable to run this code can be
-created using the following steps.
-
-- navigate to this project's folder
-- create an environments (e.g. ris_toolkit) using the provided requirements.txt
+create an environment by running:
 
 ```bash
 conda create --name ris_toolkit --file requirements.txt
-```
-
-- activate the anaconda environment
-
-```bash
 conda activate ris_toolkit
 ```
 
-- generate the data as described in the following section.
+### Data generation
 
-### Data generation and cleaning
-
-After downloading the data, you need to rearrange the files such that they follow
+After downloading the data, you need to re-arrange the files such that they follow
 the file structure below.
 
 ```tree
@@ -185,17 +150,24 @@ the file structure below.
         └── camera_calibration.txt  # 12 line calibration file.
 ```
 
-the following program generates a modified dataset following the above file structure.
-The new dataset will contain stereo rectified frames (based on `--rect_alpha`)
-de-interlaced, cropped and interpolated to `1280x1024` as described above.
+The following scripts generate a processed  version of the RIS_2017 dataset
+following the above file structure. The stereo rectified frames new dataset will
+be de-interlaced, cropped and interpolated to `1280x1024`.
 Additionally a stereo_calib.json, OpenCV compatible, calibration file will be
-generated, in place of camera_calibration.txt. This calibration file contains
-the original the stereo parameters plus the computed rectification parameters.
+generated containing both the provided calibration parameters and the stereo
+rectification matrices in OpenCV format. The rectification cropping can be
+adjusted using the `--rect_alpha` flag.
+
+To create the a stereo rectified dataset de-interlaced and cropped to 1280x1024
+dataset,use the following script for the test and training sequence respectively
 
 ```bash
 python -m scripts.generate_stereo_binary_dataset /path_to_original/train_set /path_to_store_the_new/train_set --alpha_rect -1
 python -m scripts.generate_stereo_binary_dataset /path_to_original/test_set /path_to_store_the_new/test_set --alpha_rect -1
 ```
+
+To create the a monocular de-interlaced and cropped to 1280x1024 dataset,
+use the following script for the test and training sequence respectively
 
 ```bash
 python -m scripts.generate_clean_monocular_dataset /path_to_original/train_set /path_to_store_the_new/train_set 
@@ -204,8 +176,9 @@ python -m scripts.generate_clean_monocular_dataset /path_to_original/test_set /p
 
 ### Generate Sample CSV
 
-To generate a csv file containing a list of all left, right images and binary segmentation masks
-under a specific folder recursively you can use the following script
+To generate a csv file containing a list of all left, right images and binary
+segmentation masks under a specific folder recursively you can use the following
+script
 
 - The `--binary` flag dictates if the outcome .csv file will contain ground truth
 binary segmentation masks as the third column.
@@ -216,7 +189,8 @@ python -m scripts.generate_io_csv.py path/to/dataset ./path/to/write/csv [--bina
 
 ### Evaluate Binary Segmentation
 
-TODO TEST THIS AND WHAT IT DOES
+You can use this script to validate predictions using IoU metric. The script will
+compute a score fore every dataset in the test sequence
 
 ```bash
 python -m scripts.evaluate  --gt_dir /path/to/test/dataset/root/dir --algorithm_output_dir /path/to directory/samples/for/eval/are/stored 

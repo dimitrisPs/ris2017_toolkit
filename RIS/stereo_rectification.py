@@ -1,6 +1,5 @@
 import cv2
-import numpy
-import numpy as np
+
 class Stereo_Rectifier:
     def __init__(self, calib):
         self.calib = calib.copy()

@@ -41,7 +41,6 @@ if __name__ == '__main__':
         for gt_samples in tqdm(zip(*ground_truth_paths), desc='ground truth samples', leave=False, total = len(ground_truth_paths[0])):
             gt_list=[]
             for sample_p in gt_samples:
-                # crop resize , rectify and add it to binary mask
                 sample = cv2.imread(str(sample_p),0)
                 sample_c = utils.frame_crop(sample)
                 sample_f = cv2.resize(sample_c, (1280,1024))

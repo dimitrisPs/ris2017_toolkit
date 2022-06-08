@@ -3,11 +3,6 @@ import cv2
 import numpy as np
 from . import utils
 import json
-# paths should be either pathlib.Path or str
-
-# read calibration files.
-# read calibration files in original format.
-
 
 def read_calibration_txt(path):
     try:
@@ -86,8 +81,6 @@ def load_calib(path):
             calib[key] = cvjson_to_np(calib_data[key])
     return calib
     
-
-# parse datasets and return paths
 
 
 def agg_paths(dataset_dir):

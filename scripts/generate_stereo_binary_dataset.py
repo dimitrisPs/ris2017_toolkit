@@ -42,7 +42,7 @@ if __name__ == '__main__':
             cv2.imwrite(str(save_l_dir/left_img_p.name), img_rect_l)
             cv2.imwrite(str(save_r_dir/right_img_p.name), img_rect_r)
             
-        # rectify ground truth samples and create a the binary samples.
+        # rectify ground truth samples and create binary samples.
         ground_truth_path_dict = ds_paths['ground_truth']
         ground_truth_dst_dirs = [save_gt_dir/name for name in ds_paths['ground_truth'].keys()]
         ground_truth_dst_dirs.append(save_gt_dir/'binary')
@@ -53,13 +53,10 @@ if __name__ == '__main__':
         for gt_samples in tqdm(zip(*ground_truth_paths), desc='ground truth samples', leave=False, total = len(ground_truth_paths[0])):
             gt_list=[]
             for sample_p in gt_samples:
-                # crop resize , rectify and add it to binary mask
                 sample = cv2.imread(str(sample_p),0)
                 sample_c = utils.frame_crop(sample)
                 sample_f = cv2.resize(sample_c, (1280,1024))
                 sample_r, _ = rectifier.rectify(sample_f, sample_f, args.rect_alpha)
-                # quite possibly the interpolation will mesh things up here. I need to find a
-                # way to deal with it.
                 gt_list.append(sample_r)
                 cv2.imwrite(str(save_gt_dir/sample_p.parent.name/sample_p.name), sample_r)
             binary_mask = utils.multiclass_masks_to_binary(gt_list)
