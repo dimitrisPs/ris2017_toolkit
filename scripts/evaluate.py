@@ -1,7 +1,6 @@
 import argparse
 import numpy as np
 from pathlib import Path
-from RIS.iotools import agg_paths
 from RIS.metrics import iou
 from tqdm import tqdm
 import cv2

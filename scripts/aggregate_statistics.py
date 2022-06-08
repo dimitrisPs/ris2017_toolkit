@@ -3,11 +3,10 @@ import argparse
 import cv2
 import numpy as np
 from tqdm import tqdm
-from RIS.iotools import agg_paths
 from RIS.metrics import rgb_std_mean, binary_coverage
 
 parser = argparse.ArgumentParser('Compute dataset statistics')
-parser.add_argument('root_dir', help="dataset's train directory, containing test and train folders")
+parser.add_argument('root_dir', help="dataset root directory, containing test and train folders")
 
 
 
