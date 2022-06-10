@@ -5,7 +5,7 @@ in stereo setting. Additionally this repository can be used to pre-process
 the monocular RIS2017 data by cropping and de-interlacing the provided frames.
 
 If you are using the [Robotics instrument Segmentation
-2017 Endovis challenge dataset](https://endovissub2017-roboticinstrumentsegmentation.grand-challenge.org/Home/)  cite the official paper
+2017 Endovis challenge dataset](https://arxiv.org/abs/1902.06426)  cite the official paper
 
 ```cite
 @article{allan20192017,
@@ -17,7 +17,7 @@ If you are using the [Robotics instrument Segmentation
 ```
 
 If this repository contains code useful to your research consider citing
-[MSDESIS: Multi-task stereo disparity estimation and surgical instrument segmentation]() from which this code originates
+[MSDESIS: Multi-task stereo disparity estimation and surgical instrument segmentation](https://ieeexplore.ieee.org/document/9791423) from which this code originates
 
 ```cite
 @ARTICLE{9791423,
