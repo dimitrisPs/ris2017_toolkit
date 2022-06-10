@@ -103,7 +103,7 @@ of the even lines.
 
 ### Imperfect time Synchronization between stereo channels
 
-The left and right view are not synchronized in time. This can be easily seen in
+The left and right view are not perfectly synchronized in time. This can be easily seen in
 views where a tool is moving fast in the vertical direction.
 Dataset 1- Frame 207
 
