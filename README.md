@@ -1,7 +1,8 @@
 # MICCAI 2017 Robotic Instrument Segmentation toolkit
 
 This repository contains unofficial code to assist with the use of the RIS2017
-in stereo setting.
+in stereo setting. Additionally this repository can be used to pre-process
+the monocular RIS2017 data by cropping and de-interlacing the provided frames.
 
 If you are using the [Robotics instrument Segmentation
 2017 Endovis challenge dataset](https://endovissub2017-roboticinstrumentsegmentation.grand-challenge.org/Home/)  cite the official paper
@@ -16,9 +17,18 @@ If you are using the [Robotics instrument Segmentation
 ```
 
 If this repository contains code useful to your research consider citing
-[Real-time multi-task 3D scene reconstruction and instrument segmentation using surgical video]() from which this code originates
+[MSDESIS: Multi-task stereo disparity estimation and surgical instrument segmentation]() from which this code originates
 
 ```cite
+@ARTICLE{9791423,
+  author={Psychogyios, Dimitrios and Mazomenos, Evangelos and Vasconcelos, Francisco and Stoyanov, Danail},
+  journal={IEEE Transactions on Medical Imaging}, 
+  title={MSDESIS: Multi-task stereo disparity estimation and surgical instrument segmentation}, 
+  year={2022},
+  volume={},
+  number={},
+  pages={1-1},
+  doi={10.1109/TMI.2022.3181229}}
 ```
 
 ## Features
@@ -34,7 +44,7 @@ The project provides code to manipulate RIS 2017 data and supports:
 
 ## Getting the dataset
 
-The dataset is made publicly available after the completion of the EndoVis challenge.
+The dataset had been made publicly available after the completion of the EndoVis challenge.
 To get access you need to go to the [RIS2017 EndoVis challenge download webpage](https://endovissub2017-roboticinstrumentsegmentation.grand-challenge.org/Downloads/), 
 create a user account in the grand-challenge platform, join the challenge and
 follow the provided instructions on how to download the dataset.
